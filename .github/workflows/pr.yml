@@ -28,12 +28,10 @@ jobs:
           node-version-file: "package.json"
           cache: "pnpm"
           cache-dependency-path: "pnpm-lock.yaml"
-      - name: Install dependencies
-        run: pnpm install
-      - name: Run frontend typecheck
-        run: pnpm typecheck
-      - name: Run frontend lint
-        run: pnpm check
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm typecheck 
+      - run: pnpm check
+        
       
          
 
@@ -52,6 +50,6 @@ jobs:
           node-version-file: "package.json"
           cache: "pnpm"
           cache-dependency-path: "pnpm-lock.yaml"
-      - name: Run build
-        run: pnpm run build
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm run build
           
