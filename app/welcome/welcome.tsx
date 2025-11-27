@@ -1,5 +1,5 @@
 const gig = {
-	date: new Date(2026, 1, 17, 19),
+	date: new Date(2026, 0, 17, 19),
 	venue: "Josefine Vertshus",
 	address: "Josefines gate 16, 0351 Oslo",
 	eventLink: "https://www.facebook.com/events/3396215823865610",
