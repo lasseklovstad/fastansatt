@@ -1,5 +1,12 @@
 {
 	"files.associations": {
 		"wrangler.json": "jsonc"
-	}
+	},
+	"editor.codeActionsOnSave": {
+		"source.fixAll.biome": "explicit",
+		"source.organizeImports.biome": "explicit"
+	},
+	"biome.enabled": true,
+	"editor.defaultFormatter": "biomejs.biome",
+	"biome.configurationPath": "biome.json"
 }
