@@ -3,12 +3,12 @@
 :root {
 	--background: oklch(0.08 0 0);
 	--foreground: oklch(0.95 0 0);
-	--primary: oklch(0.6 0.22 27);
-	--primary-foreground: oklch(0.95 0 0);
+	--primary: oklch(89.541% 0.18707 101.517);
+	--primary-foreground: oklch(0.08 0 0);
 	--muted: oklch(0.25 0 0);
 	--muted-foreground: oklch(0.65 0 0);
 	--border: oklch(0.3 0 0);
-	--ring: oklch(0.6 0.22 27);
+	--ring: oklch(89.541% 0.18707 101.517);
 }
 
 @theme {
