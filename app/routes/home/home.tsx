@@ -1,4 +1,4 @@
-import type { Route } from "../+types/home";
+import type { Route } from "./+types/home";
 import { Gigs } from "./components/gigs";
 import { Welcome } from "./components/welcome";
 
