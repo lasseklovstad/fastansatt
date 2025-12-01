@@ -9,5 +9,8 @@ export default [
 	layout("routes/layout.tsx", [
 		index("routes/home/home.tsx"),
 		route("bilder", "routes/pictures/pictures.tsx"),
+		route("om-oss", "routes/about/about.tsx"),
+		route("musikk", "routes/music/music.tsx"),
+		route("merch", "routes/merch/merch.tsx"),
 	]),
 ] satisfies RouteConfig;

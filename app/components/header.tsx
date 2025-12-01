@@ -7,10 +7,10 @@ import { SvgMenu } from "./icons";
 
 const links = [
 	{ to: href("/"), label: "Hjem" },
-	{ to: "/musikk", label: "Musikk" },
+	{ to: href("/musikk"), label: "Musikk" },
 	{ to: href("/bilder"), label: "Bilder" },
-	{ to: "/om-oss", label: "Om oss" },
-	{ to: "/merch", label: "Merch" },
+	{ to: href("/om-oss"), label: "Om oss" },
+	{ to: href("/merch"), label: "Merch" },
 ];
 
 export const Header = () => {
