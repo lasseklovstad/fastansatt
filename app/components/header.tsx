@@ -1,6 +1,9 @@
-import { useRef } from "react";
+import { useState } from "react";
 import { href, NavLink } from "react-router";
+import { Dialog } from "~/components/dialog";
 import { cn } from "~/lib/utils";
+import { IconButton } from "./icon-button";
+import { SvgMenu } from "./icons";
 
 const links = [
 	{ to: href("/"), label: "Hjem" },
@@ -11,41 +14,26 @@ const links = [
 ];
 
 export const Header = () => {
-	const dialogRef = useRef<HTMLDialogElement>(null);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	const openMenu = () => {
-		dialogRef.current?.showModal();
+		setIsMenuOpen(true);
 	};
 
 	const closeMenu = () => {
-		dialogRef.current?.close();
+		setIsMenuOpen(false);
 	};
 
 	return (
 		<header className="container mx-auto flex gap-2 items-center justify-between p-4">
 			{/* Mobile menu button */}
-			<button
-				type="button"
+			<IconButton
 				onClick={openMenu}
-				className="md:hidden ml-auto p-2 hover:bg-gray-800 rounded"
+				className="md:hidden ml-auto"
 				aria-label="Åpne meny"
 			>
-				<svg
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="2"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-				>
-					<title>Meny</title>
-					<line x1="3" y1="6" x2="21" y2="6" />
-					<line x1="3" y1="12" x2="21" y2="12" />
-					<line x1="3" y1="18" x2="21" y2="18" />
-				</svg>
-			</button>
+				<SvgMenu />
+			</IconButton>
 
 			{/* Desktop navigation */}
 			<nav className="hidden md:flex flex-1 justify-center">
@@ -69,36 +57,8 @@ export const Header = () => {
 			</nav>
 
 			{/* Mobile dialog */}
-			<dialog
-				ref={dialogRef}
-				className="backdrop:bg-black backdrop:opacity-90 bg-background text-foreground w-full h-full max-w-full max-h-full m-0 p-0"
-			>
-				<div className="flex flex-col h-full">
-					{/* Close button */}
-					<div className="flex justify-end p-4">
-						<button
-							type="button"
-							onClick={closeMenu}
-							className="p-2 hover:bg-gray-800 rounded"
-							aria-label="Close menu"
-						>
-							<svg
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							>
-								<title>Close</title>
-								<line x1="18" y1="6" x2="6" y2="18" />
-								<line x1="6" y1="6" x2="18" y2="18" />
-							</svg>
-						</button>
-					</div>
-
+			<Dialog isOpen={isMenuOpen} onClose={closeMenu}>
+				<div className="flex flex-col h-full pt-16">
 					{/* Mobile navigation */}
 					<nav className="flex-1 flex items-center justify-center">
 						<ul className="flex flex-col gap-4 text-center">
@@ -121,7 +81,7 @@ export const Header = () => {
 						</ul>
 					</nav>
 				</div>
-			</dialog>
+			</Dialog>
 		</header>
 	);
 };
