@@ -28,6 +28,7 @@ export function AudioPlayer({
 	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(0);
 	const [volume, setVolume] = useState(1);
+	const wasPlayingRef = useRef(false);
 
 	// Play/pause when track changes or play state changes
 	useEffect(() => {
@@ -40,18 +41,20 @@ export function AudioPlayer({
 		} else {
 			audioRef.current.pause();
 		}
+
+		wasPlayingRef.current = isPlaying;
 	}, [isPlaying]);
 
 	// Reset and play when track changes
 	useEffect(() => {
 		if (!audioRef.current || !currentTrack) return;
 
-		const wasPlaying = isPlaying;
+		const shouldContinuePlaying = wasPlayingRef.current;
 		audioRef.current.load();
 		setCurrentTime(0);
 
 		// If a track was playing, continue playing the new track
-		if (wasPlaying) {
+		if (shouldContinuePlaying) {
 			setIsPlaying(false); // Reset state to trigger the play effect
 			// Use a timeout to ensure load completes before playing
 			const timer = setTimeout(() => {
