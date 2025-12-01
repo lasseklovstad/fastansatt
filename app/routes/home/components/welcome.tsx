@@ -4,7 +4,7 @@ export function Welcome() {
 	return (
 		<>
 			<H1>Fast Ansatt</H1>
-			<p className="text-xl text-muted-foreground text-center p-8 max-w-3xl mx-auto">
+			<p className="text-xl text-muted-foreground text-center p-4 max-w-3xl mx-auto">
 				Ditt lokale cover-band som leverer rock og pop i Oslo-området! Sjekk ut
 				bilder fra våre villeste konserter, se hvor vi spiller neste gang og møt
 				gjengen bak musikken.
