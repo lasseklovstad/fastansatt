@@ -1,6 +1,3 @@
-import { Link } from "react-router";
-import { Footer } from "~/components/footer";
-import { Header } from "~/components/header";
 import type { Route } from "../+types/home";
 import { Gigs } from "./components/gigs";
 import { Welcome } from "./components/welcome";
