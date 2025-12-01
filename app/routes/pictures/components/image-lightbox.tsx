@@ -1,8 +1,8 @@
 import { Dialog } from "~/components/dialog";
 import { IconButton } from "~/components/icon-button";
 import { SvgNext, SvgPrevious } from "~/components/icons";
-import { useKeyboardNavigation } from "../hooks/useKeyboardNavigation";
-import { useTouchGestures } from "../hooks/useTouchGestures";
+import { useKeyboardNavigation } from "../hooks/use-keyboard-navigation";
+import { useTouchGestures } from "../hooks/use-touch-gestures";
 
 interface ImageLightboxProps {
 	images: string[];
@@ -28,7 +28,13 @@ export function ImageLightbox({
 		onPrevious,
 	});
 
-	const { handleTouchStart, handleTouchEnd } = useTouchGestures({
+	const {
+		handleTouchStart,
+		handleTouchMove,
+		handleTouchEnd,
+		dragOffset,
+		isTransitioning,
+	} = useTouchGestures({
 		onSwipeLeft: onNext,
 		onSwipeRight: onPrevious,
 	});
@@ -40,6 +46,7 @@ export function ImageLightbox({
 			<div
 				className="relative w-full h-full flex items-center justify-center"
 				onTouchStart={handleTouchStart}
+				onTouchMove={handleTouchMove}
 				onTouchEnd={handleTouchEnd}
 			>
 				{/* Image Counter */}
@@ -72,6 +79,10 @@ export function ImageLightbox({
 					src={`/images/2025-bryllup-webp-1600/${currentImage}`}
 					alt={`Wedding ${currentIndex + 1} of ${images.length}`}
 					className="max-w-full max-h-full object-contain p-4"
+					style={{
+						transform: `translateX(${dragOffset}px)`,
+						transition: isTransitioning ? "transform 0.3s ease-out" : "none",
+					}}
 				/>
 			</div>
 		</Dialog>
