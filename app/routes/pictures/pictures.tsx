@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { H1 } from "~/components/headings";
-import { ImageLightbox } from "./components/ImageLightbox";
+import { ImageLightbox } from "./components/image-lightbox";
 
 const weddingPictures = [
 	"0K6A8444.webp",
