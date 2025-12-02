@@ -10,8 +10,8 @@ export function Welcome() {
 				gjengen bak musikken.
 			</p>
 			<img
-				src="/images/2025-bryllup-webp-1200/cover-image.webp"
-				srcSet="/images/2025-bryllup-webp-600/cover-image.webp 600w, /images/2025-bryllup-webp-1200/cover-image.webp 1200w, /images/2025-bryllup-webp-1600/cover-image.webp 1600w"
+				src="/cover-image-1600.webp"
+				srcSet="/cover-image-600.webp 600w, /cover-image-1200.webp 1200w, /cover-image-1600.webp 1600w"
 				sizes="100vw"
 				alt=""
 				className="w-full h-full object-cover"

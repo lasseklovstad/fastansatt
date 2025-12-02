@@ -76,8 +76,8 @@ export function ImageLightbox({
 
 				{/* Image */}
 				<img
-					src={`/images/2025-bryllup-webp-1600/${currentImage}`}
-					alt={`Wedding ${currentIndex + 1} of ${images.length}`}
+					src={`/images-1600/${currentImage}`}
+					alt=""
 					className="max-w-full max-h-full object-contain p-4"
 					style={{
 						transform: `translateX(${dragOffset}px)`,

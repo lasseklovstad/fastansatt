@@ -3,36 +3,34 @@ import { H1 } from "~/components/headings";
 import { ImageLightbox } from "./components/image-lightbox";
 
 const weddingPictures = [
-	"0K6A8444.webp",
-	"0K6A8445.webp",
-	"0K6A8446.webp",
-	"0K6A8447.webp",
-	"0K6A8449.webp",
-	"0K6A8450.webp",
-	"0K6A8452.webp",
-	"0K6A8453.webp",
-	"0K6A8455.webp",
-	"0K6A8456.webp",
-	"0K6A8459.webp",
-	"0K6A8473.webp",
-	"0K6A8494.webp",
-	"0K6A8497.webp",
-	"0K6A8501.webp",
-	"0K6A8507.webp",
-	"0K6A8508.webp",
-	"0K6A8509.webp",
-	"0K6A8510.webp",
-	"0K6A8511.webp",
-	"0K6A8514.webp",
-	"0K6A8516.webp",
-	"0K6A8517.webp",
-	"0K6A8519.webp",
-	"0K6A8520.webp",
-	"0K6A8522.webp",
-	"0K6A8524.webp",
-	"0K6A8525.webp",
-	"0K6A8527.webp",
-	"0K6A8529.webp",
+	"2025-host-bryllup/0K6A8447.webp",
+	"2025-host-bryllup/0K6A8452.webp",
+	"2025-host-bryllup/0K6A8455.webp",
+	"2025-host-bryllup/0K6A8473.webp",
+	"2025-host-bryllup/0K6A8501.webp",
+	"2025-host-bryllup/0K6A8509.webp",
+	"2025-host-bryllup/0K6A8511.webp",
+	"2025-host-bryllup/0K6A8514.webp",
+	"2025-host-bryllup/0K6A8517.webp",
+	"2025-host-bryllup/0K6A8519.webp",
+	"2025-host-bryllup/0K6A8525.webp",
+	"2025-host-bryllup/0K6A8529.webp",
+	"2025-sommer-bryllup/622.webp",
+	"2025-sommer-bryllup/627.webp",
+	"2025-sommer-bryllup/628.webp",
+	"2025-sommer-bryllup/629.webp",
+	"2025-sommer-bryllup/630.webp",
+	"2025-sommer-bryllup/640.webp",
+	"2025-sommer-bryllup/641.webp",
+	"2025-sommer-bryllup/645.webp",
+	"josefine-vertshus/1.webp",
+	"josefine-vertshus/2.webp",
+	"josefine-vertshus/3.webp",
+	"josefine-vertshus/4.webp",
+	"josefine-vertshus/5.webp",
+	"josefine-vertshus/6.webp",
+	"josefine-vertshus/7.webp",
+	"josefine-vertshus/8.webp",
 ];
 
 export default function Pictures() {
@@ -71,12 +69,10 @@ export default function Pictures() {
 						key={name}
 						type="button"
 						onClick={() => handleOpenLightbox(index)}
-						className="w-full h-full cursor-pointer hover:opacity-90 transition-opacity"
+						className="w-full h-72 cursor-pointer hover:opacity-90 transition-opacity"
 					>
 						<img
-							src={`/images/2025-bryllup-webp-1200/${name}`}
-							srcSet={`/images/2025-bryllup-webp-600/${name} 600w, /images/2025-bryllup-webp-1200/${name} 1200w, /images/2025-bryllup-webp-1600/${name} 1600w`}
-							sizes="25vw"
+							src={`/images-600/${name}`}
 							alt={`Wedding ${index + 1}`}
 							loading="lazy"
 							className="w-full h-full object-cover"
