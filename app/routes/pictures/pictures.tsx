@@ -33,6 +33,10 @@ const weddingPictures = [
 	"josefine-vertshus/8.webp",
 ];
 
+export function meta() {
+	return [{ title: "Bilder" }];
+}
+
 export default function Pictures() {
 	const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
 		null,

@@ -37,6 +37,10 @@ const tracks: Track[] = [
 	},
 ];
 
+export function meta() {
+	return [{ title: "Musikk" }];
+}
+
 export default function Music() {
 	const [currentTrackId, setCurrentTrackId] = useState<number | null>(null);
 

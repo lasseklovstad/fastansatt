@@ -1,5 +1,9 @@
 import { H1 } from "~/components/headings";
 
+export function meta() {
+	return [{ title: "Merch" }];
+}
+
 export default function Merch() {
 	return (
 		<main className="container mx-auto space-y-4">
