@@ -45,7 +45,7 @@ export const Header = () => {
 								className={({ isActive }) =>
 									cn(
 										"p-4 min-w-16 text-lg hover:bg-gray-800",
-										isActive && "text-primary",
+										isActive && "text-primary font-semibold",
 									)
 								}
 							>
