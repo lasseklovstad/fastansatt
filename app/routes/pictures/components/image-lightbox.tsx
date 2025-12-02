@@ -2,7 +2,6 @@ import { Dialog } from "~/components/dialog";
 import { IconButton } from "~/components/icon-button";
 import { SvgNext, SvgPrevious } from "~/components/icons";
 import { useKeyboardNavigation } from "../hooks/use-keyboard-navigation";
-import { useTouchGestures } from "../hooks/use-touch-gestures";
 
 interface ImageLightboxProps {
 	images: string[];
@@ -28,27 +27,11 @@ export function ImageLightbox({
 		onPrevious,
 	});
 
-	const {
-		handleTouchStart,
-		handleTouchMove,
-		handleTouchEnd,
-		dragOffset,
-		isTransitioning,
-	} = useTouchGestures({
-		onSwipeLeft: onNext,
-		onSwipeRight: onPrevious,
-	});
-
 	const currentImage = images[currentIndex];
 
 	return (
 		<Dialog isOpen={isOpen} onClose={onClose}>
-			<div
-				className="relative w-full h-full flex items-center justify-center"
-				onTouchStart={handleTouchStart}
-				onTouchMove={handleTouchMove}
-				onTouchEnd={handleTouchEnd}
-			>
+			<div className="relative w-full h-full flex items-center justify-center">
 				{/* Image Counter */}
 				<div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-black/50 text-white px-4 py-2 rounded-full text-sm font-medium">
 					{currentIndex + 1} / {images.length}
@@ -79,10 +62,6 @@ export function ImageLightbox({
 					src={`/images-1600/${currentImage}`}
 					alt=""
 					className="max-w-full max-h-full object-contain p-4"
-					style={{
-						transform: `translateX(${dragOffset}px)`,
-						transition: isTransitioning ? "transform 0.3s ease-out" : "none",
-					}}
 				/>
 			</div>
 		</Dialog>
