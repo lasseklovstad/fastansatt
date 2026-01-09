@@ -5,6 +5,7 @@ const gig = {
 	venue: "Josefine Vertshus",
 	address: "Josefines gate 16, 0351 Oslo",
 	eventLink: "https://www.facebook.com/events/3396215823865610",
+	ticketLink: "https://fast-ansatt.hoopla.no/event/372514305",
 };
 
 export const Gigs = () => (
@@ -30,14 +31,24 @@ export const Gigs = () => (
 				🕐 {gig.date.toLocaleTimeString(undefined, { timeStyle: "short" })}
 			</p>
 
-			<a
-				target="_blank"
-				rel="noopener noreferrer"
-				href={gig.eventLink}
-				className="bg-primary text-primary-foreground hover:opacity-90 rounded-sm px-4 py-2 text-lg"
-			>
-				Gå til eventside
-			</a>
+			<div className="flex gap-2">
+				<a
+					target="_blank"
+					rel="noopener noreferrer"
+					href={gig.eventLink}
+					className="bg-primary text-primary-foreground hover:opacity-90 rounded-sm px-4 py-2 text-lg"
+				>
+					Gå til eventside
+				</a>
+				<a
+					target="_blank"
+					rel="noopener noreferrer"
+					href={gig.ticketLink}
+					className="bg-primary text-primary-foreground hover:opacity-90 rounded-sm px-4 py-2 text-lg"
+				>
+					Kjøp billett
+				</a>
+			</div>
 		</div>
 	</article>
 );
