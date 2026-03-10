@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { H1, H2 } from "~/components/headings";
+import { H1, H2, H3 } from "~/components/headings";
 import { AudioPlayer } from "./components/audio-player";
 import { TrackList } from "./components/track-list";
 
@@ -37,11 +37,7 @@ const tracks: Track[] = [
 	},
 ];
 
-export function meta() {
-	return [{ title: "Musikk" }];
-}
-
-export default function Music() {
+export const Music = () => {
 	const [currentTrackId, setCurrentTrackId] = useState<number | null>(null);
 
 	const currentTrack = tracks.find((track) => track.id === currentTrackId);
@@ -71,36 +67,43 @@ export default function Music() {
 	};
 
 	return (
-		<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-			{/* Track list */}
-			<div>
-				<H2 className="mb-4">Sanger</H2>
-				<TrackList
-					tracks={tracks}
-					currentTrackId={currentTrackId}
-					onTrackSelect={handleTrackSelect}
-				/>
-			</div>
-
-			{/* Audio player */}
-			<div>
-				<H2 className="mb-4">Avspiller</H2>
-				{currentTrack ? (
-					<AudioPlayer
-						currentTrack={{
-							title: currentTrack.title,
-							artist: currentTrack.artist,
-							url: `/music/${currentTrack.filename}`,
-						}}
-						onNext={handleNext}
-						onPrevious={handlePrevious}
+		<article className="px-4">
+			<H2 className="mb-4">Musikk</H2>
+			<p className="text-xl text-muted-foreground">
+				Vi spiller masse forskjellig cover-låter. Her er live opptak av noen
+				låter vi har spilt.
+			</p>
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+				{/* Track list */}
+				<div>
+					<H3 className="mb-4">Sanger</H3>
+					<TrackList
+						tracks={tracks}
+						currentTrackId={currentTrackId}
+						onTrackSelect={handleTrackSelect}
 					/>
-				) : (
-					<div className="border border-border rounded-lg p-6 text-center text-muted-foreground">
-						Velg en sang for å begynne å spille
-					</div>
-				)}
+				</div>
+
+				{/* Audio player */}
+				<div>
+					<H3 className="mb-4">Avspiller</H3>
+					{currentTrack ? (
+						<AudioPlayer
+							currentTrack={{
+								title: currentTrack.title,
+								artist: currentTrack.artist,
+								url: `/music/${currentTrack.filename}`,
+							}}
+							onNext={handleNext}
+							onPrevious={handlePrevious}
+						/>
+					) : (
+						<div className="border border-border rounded-lg p-6 text-center text-muted-foreground">
+							Velg en sang for å begynne å spille
+						</div>
+					)}
+				</div>
 			</div>
-		</div>
+		</article>
 	);
-}
+};

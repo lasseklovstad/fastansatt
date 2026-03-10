@@ -1,6 +1,8 @@
 import type { Route } from "./+types/home";
 import { Gigs } from "./components/gigs";
 import { Welcome } from "./components/welcome";
+import { Music } from "./music/music";
+import Pictures from "./pictures/pictures";
 
 export function meta() {
 	return [
@@ -19,9 +21,11 @@ export function loader({ context }: Route.LoaderArgs) {
 
 export default function Home() {
 	return (
-		<main className="container mx-auto space-y-4">
+		<main className="container mx-auto space-y-8">
 			<Welcome />
 			<Gigs />
+			<Music />
+			<Pictures />
 		</main>
 	);
 }
