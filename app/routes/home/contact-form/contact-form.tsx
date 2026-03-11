@@ -49,7 +49,10 @@ export const ContactForm = () => {
 						{...getInputProps(fields.fullName, { type: "text" })}
 						autoComplete="name"
 					/>
-					<ErrorMessage errors={fields.fullName.errors} />
+					<ErrorMessage
+						id={fields.fullName.errorId}
+						errors={fields.fullName.errors}
+					/>
 				</div>
 
 				<div className="space-y-2">
@@ -58,7 +61,10 @@ export const ContactForm = () => {
 						{...getInputProps(fields.email, { type: "email" })}
 						autoComplete="email"
 					/>
-					<ErrorMessage errors={fields.email.errors} />
+					<ErrorMessage
+						id={fields.email.errorId}
+						errors={fields.email.errors}
+					/>
 				</div>
 
 				<div className="space-y-2">
@@ -67,16 +73,23 @@ export const ContactForm = () => {
 						{...getInputProps(fields.phone, { type: "tel" })}
 						autoComplete="tel"
 					/>
-					<ErrorMessage errors={fields.phone.errors} />
+					<ErrorMessage
+						id={fields.phone.errorId}
+						errors={fields.phone.errors}
+					/>
 				</div>
 
 				<div className="space-y-2">
 					<Label htmlFor={fields.description.id}>Beskrivelse</Label>
 					<Textarea {...getTextareaProps(fields.description)} rows={6} />
-					<ErrorMessage errors={fields.description.errors} />
+					<ErrorMessage
+						id={fields.description.errorId}
+						errors={fields.description.errors}
+					/>
 				</div>
 
 				<ErrorMessage
+					id={form.errorId}
 					errors={form.errors}
 					className="rounded-sm border bg-red-500/10 px-3 py-2"
 					aria-live="assertive"
