@@ -8,12 +8,10 @@ const gig = {
 	ticketLink: "https://fast-ansatt.hoopla.no/event/372514305",
 };
 
-const gigExpired = Date.now() - 1000 * 60 * 60 * 24 > gig.date.valueOf();
-
 export const Gigs = () => (
 	<article className="px-4">
 		<H2 className="mb-4">Kommende konserter</H2>
-		{gigExpired ? (
+		{Date.now() - 1000 * 60 * 60 * 24 > gig.date.valueOf() ? (
 			<p className="text-xl text-muted-foreground">Ingen planlagte konserter</p>
 		) : (
 			<div className="rounded p-6 border border-border">
