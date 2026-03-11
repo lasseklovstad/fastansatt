@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { H1, H2, H3 } from "~/components/headings";
+import { H2, H3 } from "~/components/headings";
 import { AudioPlayer } from "./components/audio-player";
 import { TrackList } from "./components/track-list";
 

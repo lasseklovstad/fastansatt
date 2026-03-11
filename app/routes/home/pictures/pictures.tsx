@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { H1 } from "~/components/headings";
 import { ImageLightbox } from "./components/image-lightbox";
 
 const weddingPictures = [
