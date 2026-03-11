@@ -32,3 +32,9 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          secrets: |
+            RESEND_API_KEY
+            BOOKING_NOTIFICATION_EMAILS
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          BOOKING_NOTIFICATION_EMAILS: ${{ vars.BOOKING_NOTIFICATION_EMAILS }}

@@ -2,9 +2,9 @@ import { H1 } from "~/components/headings";
 
 export function Welcome() {
 	return (
-		<>
+		<article className="p-8">
 			<H1>Fast Ansatt</H1>
-			<p className="text-xl text-muted-foreground text-center p-4 max-w-3xl mx-auto">
+			<p className="text-xl text-muted-foreground text-center p-4 max-w-3xl mx-auto mb-4">
 				Ditt lokale cover-band som leverer rock og pop i Oslo-området! Sjekk ut
 				bilder fra våre villeste konserter, se hvor vi spiller neste gang og møt
 				gjengen bak musikken.
@@ -16,6 +16,6 @@ export function Welcome() {
 				alt=""
 				className="w-full h-full object-cover"
 			/>
-		</>
+		</article>
 	);
 }
