@@ -104,31 +104,6 @@ export function AudioPlayer({
 		}
 	};
 
-	// Keyboard shortcuts
-	useEffect(() => {
-		const handleKeyPress = (e: KeyboardEvent) => {
-			if (e.target instanceof HTMLInputElement) return;
-
-			switch (e.key) {
-				case " ":
-					e.preventDefault();
-					setIsPlaying((prev) => !prev);
-					break;
-				case "ArrowRight":
-					e.preventDefault();
-					onNext();
-					break;
-				case "ArrowLeft":
-					e.preventDefault();
-					onPrevious();
-					break;
-			}
-		};
-
-		window.addEventListener("keydown", handleKeyPress);
-		return () => window.removeEventListener("keydown", handleKeyPress);
-	}, [onNext, onPrevious]);
-
 	// Format time display
 	const formatTime = (time: number) => {
 		const minutes = Math.floor(time / 60);
