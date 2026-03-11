@@ -1,18 +1,35 @@
+import {
+	getFormProps,
+	getInputProps,
+	getTextareaProps,
+	useForm,
+} from "@conform-to/react";
+import { parseWithZod } from "@conform-to/zod/v4";
 import { useFetcher } from "react-router";
+import z from "zod";
 import { Button } from "~/components/button";
+import { ErrorMessage } from "~/components/error-message";
 import { H2 } from "~/components/headings";
 import { Input } from "~/components/input";
 import { Label } from "~/components/label";
 import { Textarea } from "~/components/textarea";
+import type { action } from "../home";
+
+export const ContactFormSchema = z.object({
+	fullName: z.string({ error: "Dette feltet er påkrevd" }),
+	email: z.email({ error: "Dette feltet er påkrevd" }),
+	phone: z.string().optional(),
+	description: z.string({ error: "Dette feltet er påkrevd" }),
+});
 
 export const ContactForm = () => {
-	const fetcher = useFetcher<{ ok: boolean; error?: string }>();
-	const isSubmitting = fetcher.state === "submitting";
-	const isSuccess = fetcher.state === "idle" && fetcher.data?.ok;
-	const errorMessage =
-		fetcher.state === "idle" && fetcher.data?.ok === false
-			? (fetcher.data.error ?? "Noe gikk galt. Prøv igjen.")
-			: null;
+	const fetcher = useFetcher<typeof action>();
+	const [form, fields] = useForm({
+		lastResult: fetcher.data,
+		onValidate({ formData }) {
+			return parseWithZod(formData, { schema: ContactFormSchema });
+		},
+	});
 
 	return (
 		<article className="w-full max-w-2xl px-4">
@@ -21,41 +38,52 @@ export const ContactForm = () => {
 				Send en bookingforespørsel for konsert, så kontakter vi deg så raskt vi
 				kan.
 			</p>
-			<fetcher.Form method="POST" className="mt-6 space-y-5">
+			<fetcher.Form
+				method="POST"
+				className="mt-6 space-y-5"
+				{...getFormProps(form)}
+			>
 				<div className="space-y-2">
-					<Label htmlFor="fullName">Fullt navn</Label>
+					<Label htmlFor={fields.fullName.id}>Fullt navn</Label>
 					<Input
-						id="fullName"
-						name="fullName"
-						type="text"
-						required
+						{...getInputProps(fields.fullName, { type: "text" })}
 						autoComplete="name"
 					/>
+					<ErrorMessage errors={fields.fullName.errors} />
 				</div>
 
 				<div className="space-y-2">
-					<Label htmlFor="email">E-post</Label>
+					<Label htmlFor={fields.email.id}>E-post</Label>
 					<Input
-						id="email"
-						name="email"
-						type="email"
-						required
+						{...getInputProps(fields.email, { type: "email" })}
 						autoComplete="email"
 					/>
+					<ErrorMessage errors={fields.email.errors} />
 				</div>
 
 				<div className="space-y-2">
-					<Label htmlFor="phone">Telefonnummer</Label>
-					<Input id="phone" name="phone" type="tel" autoComplete="tel" />
+					<Label htmlFor={fields.phone.id}>Telefonnummer</Label>
+					<Input
+						{...getInputProps(fields.phone, { type: "tel" })}
+						autoComplete="tel"
+					/>
+					<ErrorMessage errors={fields.phone.errors} />
 				</div>
 
 				<div className="space-y-2">
-					<Label htmlFor="description">Beskrivelse</Label>
-					<Textarea id="description" name="description" required rows={6} />
+					<Label htmlFor={fields.description.id}>Beskrivelse</Label>
+					<Textarea {...getTextareaProps(fields.description)} rows={6} />
+					<ErrorMessage errors={fields.description.errors} />
 				</div>
 
-				<Button type="submit" disabled={isSubmitting}>
-					{isSubmitting ? (
+				<ErrorMessage
+					errors={form.errors}
+					className="rounded-sm border bg-red-500/10 px-3 py-2"
+					aria-live="assertive"
+				/>
+
+				<Button type="submit" disabled={fetcher.state !== "idle"}>
+					{fetcher.state !== "idle" ? (
 						<span className="inline-flex items-center gap-2">
 							<svg
 								className="size-4 animate-spin"
@@ -85,22 +113,13 @@ export const ContactForm = () => {
 						"Send bookingforespørsel"
 					)}
 				</Button>
-				{isSuccess ? (
+				{fetcher.data?.status === "success" ? (
 					<p
 						className="rounded-sm border border-primary/40 bg-primary/10 px-3 py-2"
 						aria-live="polite"
 					>
 						Takk! Bookingforespørselen din er sendt. Du får en bekreftelse sendt
 						på e-post.
-					</p>
-				) : null}
-
-				{errorMessage ? (
-					<p
-						className="rounded-sm border border-red-500/50 bg-red-500/10 px-3 py-2"
-						aria-live="assertive"
-					>
-						{errorMessage}
 					</p>
 				) : null}
 			</fetcher.Form>

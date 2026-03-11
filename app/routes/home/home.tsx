@@ -1,8 +1,9 @@
+import { parseWithZod } from "@conform-to/zod/v4";
 import { Resend } from "resend";
 import type { Route } from "./+types/home";
 import { Gigs } from "./components/gigs";
 import { Welcome } from "./components/welcome";
-import { ContactForm } from "./contact-form/contact-form";
+import { ContactForm, ContactFormSchema } from "./contact-form/contact-form";
 import { Music } from "./music/music";
 import Pictures from "./pictures/pictures";
 
@@ -31,30 +32,24 @@ export function loader({ context }: Route.LoaderArgs) {
 
 export async function action({ context, request }: Route.ActionArgs) {
 	const formData = await request.formData();
-	const fullName = String(formData.get("fullName") ?? "").trim();
-	const email = String(formData.get("email") ?? "").trim();
-	const phone = String(formData.get("phone") ?? "").trim();
-	const description = String(formData.get("description") ?? "").trim();
+	const submission = parseWithZod(formData, { schema: ContactFormSchema });
 	const bookingRecipients =
 		context.cloudflare.env.BOOKING_NOTIFICATION_EMAILS.split(",")
 			.map((recipient) => recipient.trim())
 			.filter(Boolean);
 
-	if (!fullName || !email || !description) {
-		return {
-			ok: false,
-			error: "Alle felter må fylles ut.",
-		};
+	if (submission.status !== "success") {
+		return submission.reply();
 	}
 
 	if (bookingRecipients.length === 0) {
-		return {
-			ok: false,
-			error: "Mottakere for booking er ikke konfigurert.",
-		};
+		return submission.reply({
+			formErrors: ["Mottakere for booking er ikke konfigurert."],
+		});
 	}
 
 	const resend = new Resend(context.cloudflare.env.RESEND_API_KEY);
+	const { fullName, email, phone = "", description } = submission.value;
 	const formattedDescription = escapeHtml(description).replaceAll(
 		"\n",
 		"<br />",
@@ -78,38 +73,30 @@ export async function action({ context, request }: Route.ActionArgs) {
 		<p>Hilsen Fast Ansatt</p>
 	`;
 
-	try {
-		const [bookingEmailResult, confirmationEmailResult] = await Promise.all([
-			resend.emails.send({
-				from: "Fast Ansatt <noreply@fastansatt.no>",
-				to: bookingRecipients,
-				replyTo: email,
-				subject: "Bookingforespørsel",
-				html,
-			}),
-			resend.emails.send({
-				from: "Fast Ansatt <noreply@fastansatt.no>",
-				to: [email],
-				replyTo: "band.fast.ansatt@gmail.com",
-				subject: "Vi har mottatt bookingforespørselen din",
-				html: confirmationHtml,
-			}),
-		]);
+	const [bookingEmailResult, confirmationEmailResult] = await Promise.all([
+		resend.emails.send({
+			from: "Fast Ansatt <noreply@fastansatt.no>",
+			to: bookingRecipients,
+			replyTo: email,
+			subject: "Bookingforespørsel",
+			html,
+		}),
+		resend.emails.send({
+			from: "Fast Ansatt <noreply@fastansatt.no>",
+			to: [email],
+			replyTo: "band.fast.ansatt@gmail.com",
+			subject: "Vi har mottatt bookingforespørselen din",
+			html: confirmationHtml,
+		}),
+	]);
 
-		if (bookingEmailResult.error || confirmationEmailResult.error) {
-			return {
-				ok: false,
-				error: "Kunne ikke sende bookingforesporsel akkurat nå.",
-			};
-		}
-	} catch {
-		return {
-			ok: false,
-			error: "Kunne ikke sende bookingforesporsel akkurat nå.",
-		};
+	if (bookingEmailResult.error || confirmationEmailResult.error) {
+		return submission.reply({
+			formErrors: ["Kunne ikke sende bookingforesporsel akkurat nå."],
+		});
 	}
 
-	return { ok: true };
+	return submission.reply();
 }
 
 export default function Home() {
