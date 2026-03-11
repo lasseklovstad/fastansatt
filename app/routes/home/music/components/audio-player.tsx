@@ -28,43 +28,38 @@ export function AudioPlayer({
 	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(0);
 	const [volume, setVolume] = useState(1);
-	const wasPlayingRef = useRef(false);
 
-	// Play/pause when track changes or play state changes
-	useEffect(() => {
-		if (!audioRef.current) return;
-
-		if (isPlaying) {
-			audioRef.current.play().catch(() => {
-				setIsPlaying(false);
-			});
-		} else {
-			audioRef.current.pause();
-		}
-
-		wasPlayingRef.current = isPlaying;
-	}, [isPlaying]);
-
-	// Reset and play when track changes
+	// Ensure new tracks start immediately when selected, including on iOS.
 	useEffect(() => {
 		if (!audioRef.current || !currentTrack) return;
 
-		const shouldContinuePlaying = wasPlayingRef.current;
-		audioRef.current.load();
+		const audio = audioRef.current;
+		audio.pause();
+		audio.load();
 		setCurrentTime(0);
+		setDuration(0);
 
-		// If a track was playing, continue playing the new track
-		if (shouldContinuePlaying) {
-			setIsPlaying(false); // Reset state to trigger the play effect
-			// Use a timeout to ensure load completes before playing
-			const timer = setTimeout(() => {
-				setIsPlaying(true);
-			}, 0);
-			return () => clearTimeout(timer);
-		} else {
-			setIsPlaying(true); // Auto-play new track
-		}
+		audio.play().then(
+			() => setIsPlaying(true),
+			() => setIsPlaying(false),
+		);
 	}, [currentTrack]);
+
+	const togglePlayPause = () => {
+		const audio = audioRef.current;
+		if (!audio) return;
+
+		if (audio.paused) {
+			audio.play().then(
+				() => setIsPlaying(true),
+				() => setIsPlaying(false),
+			);
+			return;
+		}
+
+		audio.pause();
+		setIsPlaying(false);
+	};
 
 	// Update current time
 	const handleTimeUpdate = () => {
@@ -121,6 +116,8 @@ export function AudioPlayer({
 			<audio
 				ref={audioRef}
 				src={currentTrack.url}
+				onPlay={() => setIsPlaying(true)}
+				onPause={() => setIsPlaying(false)}
 				onTimeUpdate={handleTimeUpdate}
 				onLoadedMetadata={handleLoadedMetadata}
 				onEnded={handleEnded}
@@ -157,7 +154,7 @@ export function AudioPlayer({
 						<SvgSkipBack />
 					</IconButton>
 					<IconButton
-						onClick={() => setIsPlaying(!isPlaying)}
+						onClick={togglePlayPause}
 						aria-label={isPlaying ? "Pause" : "Spill av"}
 						className="scale-125"
 					>
