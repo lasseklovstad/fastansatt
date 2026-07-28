@@ -5,6 +5,7 @@ import {
 	useForm,
 } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod/v4";
+import { useEffect, useState } from "react";
 import { useFetcher } from "react-router";
 import z from "zod";
 import { Button } from "~/components/button";
@@ -31,6 +32,16 @@ export const ContactForm = () => {
 		},
 	});
 
+	// Time check: pairs with the honeypot below. Real users need at least a
+	// few seconds to fill the form; bots tend to submit instantly. Set once
+	// on mount (never re-synced by loader/fetcher revalidation) — start at
+	// null so SSR and the first client render match, then populate
+	// post-hydration.
+	const [formRenderedAt, setFormRenderedAt] = useState<number | null>(null);
+	useEffect(() => {
+		setFormRenderedAt(Date.now());
+	}, []);
+
 	return (
 		<article className="w-full max-w-2xl px-4">
 			<H2>Kontakt oss</H2>
@@ -51,6 +62,12 @@ export const ContactForm = () => {
 					autoComplete="off"
 					aria-hidden="true"
 					className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden"
+				/>
+				{/* Time check: see comment above `formRenderedAt`. */}
+				<input
+					type="hidden"
+					name="formRenderedAt"
+					value={formRenderedAt ?? ""}
 				/>
 
 				<div className="space-y-2">
