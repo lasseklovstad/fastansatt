@@ -42,6 +42,12 @@ export async function action({ context, request }: Route.ActionArgs) {
 		return submission.reply();
 	}
 
+	// Honeypot: bots tend to fill every field, real users never see this one.
+	const website = formData.get("website");
+	if (typeof website === "string" && website.length > 0) {
+		return submission.reply();
+	}
+
 	if (bookingRecipients.length === 0) {
 		return submission.reply({
 			formErrors: ["Mottakere for booking er ikke konfigurert."],

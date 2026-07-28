@@ -43,6 +43,16 @@ export const ContactForm = () => {
 				className="mt-6 space-y-5"
 				{...getFormProps(form)}
 			>
+				{/* Honeypot: hidden from real users, bots tend to fill it in. */}
+				<input
+					type="text"
+					name="website"
+					tabIndex={-1}
+					autoComplete="off"
+					aria-hidden="true"
+					className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden"
+				/>
+
 				<div className="space-y-2">
 					<Label htmlFor={fields.fullName.id}>Fullt navn</Label>
 					<Input
