@@ -113,12 +113,16 @@ export async function action({ context, request }: Route.ActionArgs) {
 
 	const spamReason = getSpamReason(formData);
 	if (spamReason) {
+		const shouldSendSpam = false;
+		const spamRecipient = bookingRecipients.filter((br) =>
+			br.includes("lasse"),
+		);
 		// Never reveal the spam verdict, config state, or send errors to whoever/
 		// whatever submitted this — the response must look identical to a real success.
-		if (bookingRecipients.length > 0) {
+		if (spamRecipient.length > 0 && shouldSendSpam) {
 			await sendSpamAlertEmail({
 				context,
-				bookingRecipients,
+				bookingRecipients: spamRecipient,
 				reason: spamReason,
 				submission: submission.value,
 			});
